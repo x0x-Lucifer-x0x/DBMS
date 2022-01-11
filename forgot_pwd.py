@@ -16,7 +16,7 @@ def forgot_pwd():
     
     
      frame = Frame(root, bg='black', width=1920, height=1080)
-     image = Image.open( root,'hbg.jpg')
+     image = Image.open( root,'finalpwdbg.jpg')
      image =  image.resize((1600,  850), Image.ANTIALIAS)
      my_img = ImageTk.PhotoImage( root,image)
      my_lbl = Label(frame,image =  my_img) 
@@ -43,5 +43,6 @@ def forgot_pwd():
 
 
 #TEST GIT PUSH 0.1
+#u8hfrufhwueyfhuweyfwyefgweg
 
 
