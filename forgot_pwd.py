@@ -42,7 +42,6 @@ def forgot_pwd():
      root.mainloop()
 
 
-#TEST GIT PUSH 0.1
-#u8hfrufhwueyfhuweyfwyefgweg
+
 
 
