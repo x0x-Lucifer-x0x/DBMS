@@ -2,6 +2,8 @@
 from tkinter import *
 from PIL import Image,ImageTk
 from Schedule import *
+from Students import stu
+from Teachers import teacher
 from fee import fee
 from time import strftime
 from functions import *
@@ -33,6 +35,14 @@ def home():
      def fees():
           root.destroy()
           fee()
+     
+     def student():
+          root.destroy()
+          stu()
+     
+     def emp():
+          root.destroy()
+          teacher()
           
      #menubar img
      icon_image = Image.open('home_icon.png')
@@ -57,11 +67,11 @@ def home():
      b1.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',22))
      b1.place(x=32,y=119)
 
-     b2 = Button(root, text="Students",relief="flat")
+     b2 = Button(root, text="Students",command=student,relief="flat")
      b2.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',18))
      b2.place(x=13,y=200)
 
-     b3 = Button(root, text="Teachers",relief="flat")
+     b3 = Button(root, text="Teachers",command=emp,relief="flat")
      b3.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',18))
      b3.place(x=14,y=280)
 
