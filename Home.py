@@ -121,3 +121,4 @@ def home():
      root.mainloop()
 
 
+home()
