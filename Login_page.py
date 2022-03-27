@@ -79,3 +79,6 @@ l1.place(x=30,y=270,height=30,width=100)
 
 window.state('zoomed')
 window.mainloop()
+
+
+#Mai madarchod hu
