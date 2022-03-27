@@ -1,7 +1,7 @@
 from tkinter import * 
 from PIL import Image,ImageTk
 from Home import *
-import mysql.connector as sql
+#import mysql.connector as sql
 
 
 
@@ -81,4 +81,3 @@ window.state('zoomed')
 window.mainloop()
 
 
-#Mai madarchod hu
