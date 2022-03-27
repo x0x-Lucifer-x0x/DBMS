@@ -2,6 +2,8 @@
 from tkinter import *
 from PIL import Image,ImageTk
 from Schedule import *
+from Attendance import attend
+from Inventory import inventory
 from Students import stu
 from Teachers import teacher
 from fee import fee
@@ -43,6 +45,15 @@ def home():
      def emp():
           root.destroy()
           teacher()
+     
+     def inty():
+          root.destroy()
+          inventory()
+
+     def present():
+          root.destroy()
+          attend()
+          
           
      #menubar img
      icon_image = Image.open('media/home_icon.png')
@@ -79,11 +90,11 @@ def home():
      b4.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',15))
      b4.place(x=12,y=352)
 
-     b5 = Button(root, text="Iventory",relief="flat")
+     b5 = Button(root, text="Iventory",command=inty,relief="flat")
      b5.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',18))
      b5.place(x=14,y=434)
 
-     b6 = Button(root, text="Attendance",relief="flat")
+     b6 = Button(root, text="Attendance",commmand=present,relief="flat")
      b6.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',15))
      b6.place(x=12,y=516)
 
