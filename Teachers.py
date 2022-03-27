@@ -12,7 +12,7 @@ def teacher():
 
 
     #Bg img
-    image = Image.open('Teacher.png')
+    image = Image.open('media/Teacher.png')
     image = image.resize((1530,  820), Image.ANTIALIAS)
     my_img = ImageTk.PhotoImage(image)
     my_lbl = Label(image = my_img) 
@@ -25,7 +25,7 @@ def teacher():
     heading.place(x=40,y=50)
 
     #dropbox
-    icon_image = Image.open('id_icon.png')
+    icon_image = Image.open('media/id_icon.png')
     icon_image = icon_image.resize((100,  100), Image.ANTIALIAS)
     my_img1 = ImageTk.PhotoImage(icon_image)
 

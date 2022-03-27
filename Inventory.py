@@ -13,7 +13,7 @@ def inventory():
 
 
     #Bg img
-    image = Image.open('iventory.png')
+    image = Image.open('media/iventory.png')
     image = image.resize((1530,  820), Image.ANTIALIAS)
     my_img = ImageTk.PhotoImage(image)
     my_lbl = Label(image = my_img) 
@@ -27,7 +27,7 @@ def inventory():
     heading.place(x=40,y=50)
 
     #dropbox
-    icon_image = Image.open('id_icon.png')
+    icon_image = Image.open('media/id_icon.png')
     icon_image = icon_image.resize((100,  100), Image.ANTIALIAS)
     my_img1 = ImageTk.PhotoImage(icon_image)
 

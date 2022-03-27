@@ -14,7 +14,7 @@ def fee():
      root.config(bg="#f6f6f6")
     
     
-     image = Image.open('Fee_Structure.png')
+     image = Image.open('media/Fee_Structure.png')
      image = image.resize((1000,  700), Image.ANTIALIAS)
      my_img = ImageTk.PhotoImage(image)
      my_lbl = Label(image = my_img) 
@@ -23,7 +23,7 @@ def fee():
      def logout():
          fis(root)
 
-     icon_image = Image.open('id_icon.png')
+     icon_image = Image.open('media/id_icon.png')
      icon_image = icon_image.resize((100,  100), Image.ANTIALIAS)
      my_img1 = ImageTk.PhotoImage(icon_image)
 

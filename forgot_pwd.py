@@ -27,7 +27,7 @@ def pwd():
           
           
           
-     image = Image.open('finalfpwd1.jpg')
+     image = Image.open('media/finalfpwd1.jpg')
      image = image.resize((1000,  700), Image.ANTIALIAS)
      my_img = ImageTk.PhotoImage(image)
      my_lbl = Label(image = my_img) 

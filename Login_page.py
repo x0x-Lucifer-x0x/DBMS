@@ -41,7 +41,7 @@ def error():
 
 
 #Bg img
-image = Image.open('hbg.jpg')
+image = Image.open('media/hbg.jpg')
 image = image.resize((1000,  700), Image.ANTIALIAS)
 my_img = ImageTk.PhotoImage(image)
 my_lbl = Label(image = my_img) 

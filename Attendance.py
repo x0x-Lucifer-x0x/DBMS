@@ -13,7 +13,7 @@ def attend():
      root.config(bg="#f6f6f6")
     
      
-     image = Image.open('attendance.png')
+     image = Image.open('media/attendance.png')
      image2 = image.resize((1530,  820), Image.ANTIALIAS)
      my_img = ImageTk.PhotoImage(image2)
      my_lbl = Label(image = my_img) 
@@ -26,7 +26,7 @@ def attend():
      def logout():
           absent(root)
 
-     icon_image = Image.open('id_icon.png')
+     icon_image = Image.open('media/id_icon.png')
      icon_image = icon_image.resize((100,  100), Image.ANTIALIAS)
      my_img1 = ImageTk.PhotoImage(icon_image)
 

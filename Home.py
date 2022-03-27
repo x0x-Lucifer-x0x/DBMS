@@ -19,7 +19,7 @@ def home():
      root.config(bg="#f6f6f6")
     
     
-     image = Image.open('home_bg.png')
+     image = Image.open('media/home_bg.png')
      image = image.resize((1000,  700), Image.ANTIALIAS)
      my_img = ImageTk.PhotoImage(image)
      my_lbl = Label(image = my_img) 
@@ -45,7 +45,7 @@ def home():
           teacher()
           
      #menubar img
-     icon_image = Image.open('home_icon.png')
+     icon_image = Image.open('media/home_icon.png')
      icon_image = icon_image.resize((80,  80), Image.ANTIALIAS)
      my_img1 = ImageTk.PhotoImage(icon_image)
      
