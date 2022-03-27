@@ -94,7 +94,7 @@ def home():
      b5.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',18))
      b5.place(x=14,y=434)
 
-     b6 = Button(root, text="Attendance",commmand=present,relief="flat")
+     b6 = Button(root, text="Attendance",command=present,relief="flat")
      b6.config(bg="#5d53f1",fg="#ffffff",font=('Lucida Console',15))
      b6.place(x=12,y=516)
 
