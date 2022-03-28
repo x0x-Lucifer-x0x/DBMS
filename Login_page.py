@@ -1,7 +1,7 @@
 from tkinter import * 
 from PIL import Image,ImageTk
 from Home import *
-#import mysql.connector as sql
+
 
 
 
@@ -13,14 +13,21 @@ window.config(bg="#f6f6f6")
 def verify():
     if e1.get()=="" or e2.get()=="":
         empty()
-    elif e1.get()!= "a" or e2.get()!="1":
-        error()
-    elif e1.get()== "a" or e2.get()=="1":
+    
+    elif e1.get()== "Admin" or e2.get()=="Admin@1234":
         window.destroy()
         home()
-
-    else:
-        pass
+    elif e1.get()== "Teacher" or e2.get()=="Teacher@1234":
+        window.destroy()
+        home()
+    elif e1.get()== "Student" or e2.get()=="Student@1234":
+        window.destroy()
+        home()
+    elif e1.get()== "Developer" or e2.get()=="developer@1234":
+        window.destroy()
+        home()
+    else: 
+        error()
 
     #If the entry box is empty 
 def empty():

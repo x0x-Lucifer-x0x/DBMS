@@ -26,7 +26,7 @@ def home():
      my_img = ImageTk.PhotoImage(image)
      my_lbl = Label(image = my_img) 
      my_lbl.pack()
-
+ 
      def logout():
          qvit(root)
          
@@ -121,4 +121,3 @@ def home():
      root.mainloop()
 
 
-home()
