@@ -12,11 +12,7 @@ mydb = mysql.connector.connect(
     database="school_dbms"
 )
 
-global username
-global password
 
-username = StringVar()
-password = StringVar()
 
 
 window = Tk()
@@ -67,6 +63,12 @@ image = image.resize((1000,  700), Image.ANTIALIAS)
 my_img = ImageTk.PhotoImage(image)
 my_lbl = Label(image = my_img) 
 my_lbl.pack()
+
+global username
+global password
+
+username = StringVar()
+password = StringVar()
 
 #Login entry
 e1 = Entry(text="",bg='#EFEFEF',relief="flat", textvariable=username)
