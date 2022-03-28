@@ -223,4 +223,3 @@ def stu():
     root.mainloop()
 
 
-stu()
