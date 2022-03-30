@@ -120,4 +120,4 @@ def home():
      root.state('zoomed')
      root.mainloop()
 
-
+home()

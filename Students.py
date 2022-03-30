@@ -1,11 +1,18 @@
 from tkinter import * 
 from tkinter import ttk
+from tkinter import messagebox
 from PIL import Image,ImageTk
-from pymysql import cursors
 from functions import stud
-import pymysql 
+import mysql.connector 
 
 
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="Manorama#4269",
+    database="school_dbms"
+)
+mycursor = mydb.cursor()
 
 def stu():
     root = Tk()
@@ -46,26 +53,28 @@ def stu():
     mbtn.menu.add_checkbutton(label="Back",command=logout, variable=phpVar)
 
     #=====All Variables=====#
-    rollno_var = StringVar() 
+    rollno_var  = IntVar() 
     name_var = StringVar() 
-    class_var = StringVar() 
+    class_var = IntVar() 
     div_var = StringVar() 
     mail_var = StringVar() 
     add_var = StringVar() 
-    phn_var = StringVar() 
+    phn_var = IntVar() 
     dob_var = StringVar() 
     sex_var = StringVar() 
 
     #entry details
-    name = Label(text="Name",bg="#FFFFFF", font=('Lucida Console', 17))
-    name.place(x=30,y=220)
-    e1 = Entry(textvariable=name_var,bg='#EFEFEF',relief="flat")
-    e1.place(x=145,y=223,height=25,width=230)
+    
 
     rollno = Label(text="Roll No.",bg="#FFFFFF", font=('Lucida Console', 14))
-    rollno.place(x=30,y=280)
+    rollno.place(x=30,y=220)
     e2 = Entry(textvariable=rollno_var,bg='#EFEFEF',relief="flat")
-    e2.place(x=145,y=283,height=25,width=230)
+    e2.place(x=145,y=223,height=25,width=230)
+
+    name = Label(text="Name",bg="#FFFFFF", font=('Lucida Console', 17))
+    name.place(x=30,y=280)
+    e1 = Entry(textvariable=name_var,bg='#EFEFEF',relief="flat")
+    e1.place(x=145,y=283,height=25,width=230)
 
     Class = Label(text="Class",bg="#FFFFFF", font=('Lucida Console', 14))
     Class.place(x=30,y=340)
@@ -103,17 +112,49 @@ def stu():
     e9.place(x=145,y=653,height=25,width=230)
 
 
-    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",command=clear,relief="flat",font=('Lucida Console', 15))
-    b.place(x=30,y=693,height=28,width=347)
 
-    b1 = Button( root,text="Add",bg="#5d53f1",fg="#FFFFFF",command=add_stud,relief="flat",font=('Lucida Console', 15))
-    b1.place(x=35,y=740,height=30,width=80)
 
-    b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
-    b2.place(x=160,y=740,height=30,width=80)
+    rollnumber = rollno_var.get()
+    stuname = name_var.get()
+    stuclass = class_var.get()
+    studiv = div_var.get()
+    stumail = mail_var.get()
+    stuadd = add_var.get()
+    stuphn = phn_var.get()
+    studob = dob_var.get()
+    stusex = sex_var.get()
 
-    b3 = Button( root,text="Delete",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
-    b3.place(x=285,y=740,height=30,width=80)
+
+    def fetch_data():
+        mycursor.execute("select * from students")
+        rows=mycursor.fetchall()
+        if len(rows)!=0:
+            table.delete(*table.get_children())
+            for row in rows:
+                table.insert('',END,values=row)
+            mydb.commit()
+
+    def add_stud():
+
+        try:
+            sql = "INSERT INTO students (roll_no,name,class,section,email,address,contact,dob,gender) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            val = (rollnumber,stuname,stuclass,studiv,stumail,stuadd,stuphn,studob,stusex)
+
+            mycursor.execute(sql,val)
+            mydb.commit
+            messagebox.showinfo("Information","Record inserted successfully...")
+            fetch_data()
+            #clear()
+
+
+        except EXCEPTION as e:
+            print(e)
+            mydb.rollback
+
+
+
+
+
 
     #searching elements
     search = Label(text="Search By",bg="#FFFFFF", font=('Lucida Console', 14))
@@ -165,33 +206,13 @@ def stu():
     table.column("dob",width=70)
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
-    table.bind("<ButtonRelease-1>",get_cursor)
+    #table.bind("<ButtonRelease-1>",get_cursor)
+    
 
     fetch_data()
 
-    def add_stud():
-        con=pymysql.connect(host="localhost",user="root",password="",database="stm")
-        cur =con.cursor()
-        cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(name_var.get(),
-        rollno_var.get(),class_var.get(),div_var.get(),mail_var.get(),add_var.get(),
-                        phn_var.get(),dob_var.get(),sex_var.get()))
-        con.commit()
-        fetch_data()
-        clear()
-        con.close()
-    
-    def fetch_data():
-        con=pymysql.connect(host="localhost",user="root",password="",database="stm")
-        cur =con.cursor()
-        cur.execute("select * from students")
-        rows=cur.fetchall()
-        if len(rows)!=0:
-            table.delete(*table.get_children())
-            for row in rows:
-                table.insert('',END,values=row)
-            con.commit()
-        con.close()
 
+    '''
     def clear():
         name_var.set("")
         rollno_var.set("")
@@ -208,7 +229,7 @@ def stu():
         content = table.item(cursor_row)
         row=content['values']
         print(row)
-        '''con=pymysql.connect(host="localhost",user="root",password="",database="stm")
+        con=pymysql.connect(host="localhost",user="root",password="",database="stm")
         cur =con.cursor()
         cur.execute("select * from students ")#need to complete this
         rows=cur.fetchall()
@@ -219,7 +240,24 @@ def stu():
             con.commit()
         con.close()'''
 
+    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
+    b.place(x=30,y=693,height=28,width=347)
+
+    b1 = Button( root,text="Add",bg="#5d53f1",fg="#000000",command=add_stud,relief="flat",font=('Lucida Console', 15))
+    b1.place(x=235,y=190,height=30,width=80)
+
+    b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b2.place(x=160,y=740,height=30,width=80)
+
+    b3 = Button( root,text="Delete",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b3.place(x=285,y=740,height=30,width=80)
+
     root.state('zoomed')
+    
+    
+    
     root.mainloop()
+
+
 
 
