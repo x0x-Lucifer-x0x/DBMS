@@ -1,9 +1,9 @@
 from tkinter import * 
 from tkinter import ttk
 from PIL import Image,ImageTk
-from pymysql import cursors
 from functions import stud
-import pymysql 
+import mysql.connector
+from tkinter import messagebox
 
 
 
@@ -29,11 +29,11 @@ def stu():
 
     #dropbox
     icon_image = Image.open('media/id_icon.png')
-    icon_image = icon_image.resize((100,  100), Image.ANTIALIAS)
+    icon_image = icon_image.resize((150,  150), Image.ANTIALIAS)
     my_img1 = ImageTk.PhotoImage(icon_image)
 
     mbtn = Menubutton(root,image=my_img1, text="",bg="#ffffff",bd=0, relief=RAISED)
-    mbtn.place(x=900,y=2,height="100",width="100")
+    mbtn.place(x=1400,y=18,height="100",width="100")
     mbtn.menu = Menu(mbtn, tearoff = 0)
     mbtn["menu"] = mbtn.menu
             
@@ -45,14 +45,31 @@ def stu():
     mbtn.menu.add_checkbutton(label="Help", variable=javaVar)
     mbtn.menu.add_checkbutton(label="Back",command=logout, variable=phpVar)
 
+
+
+    def add():
+        try:
+            con=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+            cur =con.cursor()
+            cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(
+            roll_var.get(),name_var.get(),class_var.get(),div_var.get(),mail_var.get(),add_var.get(),
+                        phn_var.get(),dob_var.get(),sex_var.get()))
+            con.commit()
+            con.close()
+            messagebox.showinfo("Information","Record inserted successfully...")
+        except Exception as e:
+            print('error')
+            con.rollback
+
+
     #=====All Variables=====#
-    rollno_var = StringVar() 
+    roll_var = IntVar() 
     name_var = StringVar() 
-    class_var = StringVar() 
+    class_var = IntVar() 
     div_var = StringVar() 
     mail_var = StringVar() 
     add_var = StringVar() 
-    phn_var = StringVar() 
+    phn_var = IntVar() 
     dob_var = StringVar() 
     sex_var = StringVar() 
 
@@ -64,7 +81,7 @@ def stu():
 
     rollno = Label(text="Roll No.",bg="#FFFFFF", font=('Lucida Console', 14))
     rollno.place(x=30,y=280)
-    e2 = Entry(textvariable=rollno_var,bg='#EFEFEF',relief="flat")
+    e2 = Entry(textvariable=roll_var,bg='#EFEFEF',relief="flat")
     e2.place(x=145,y=283,height=25,width=230)
 
     Class = Label(text="Class",bg="#FFFFFF", font=('Lucida Console', 14))
@@ -102,11 +119,10 @@ def stu():
     e9 = Entry(textvariable=sex_var,bg='#EFEFEF',relief="flat")
     e9.place(x=145,y=653,height=25,width=230)
 
-
-    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",command=clear,relief="flat",font=('Lucida Console', 15))
+    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
     b.place(x=30,y=693,height=28,width=347)
 
-    b1 = Button( root,text="Add",bg="#5d53f1",fg="#FFFFFF",command=add_stud,relief="flat",font=('Lucida Console', 15))
+    b1 = Button( root,text="Add",bg="#5d53f1",fg="#FFFFFF",command=add,relief="flat",font=('Lucida Console', 15))
     b1.place(x=35,y=740,height=30,width=80)
 
     b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
@@ -165,21 +181,38 @@ def stu():
     table.column("dob",width=70)
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
-    table.bind("<ButtonRelease-1>",get_cursor)
 
-    fetch_data()
 
-    def add_stud():
-        con=pymysql.connect(host="localhost",user="root",password="",database="stm")
+   
+
+    
+
+
+
+    
+    '''' def add_stud():
+        con=mysql.connect(host="localhost",user="root",password="Meet@1234",database="stm")
         cur =con.cursor()
         cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(name_var.get(),
         rollno_var.get(),class_var.get(),div_var.get(),mail_var.get(),add_var.get(),
                         phn_var.get(),dob_var.get(),sex_var.get()))
         con.commit()
-        fetch_data()
-        clear()
-        con.close()
+        #fetch_data()
+        #clear()
+        con.close()'''
+
+
+    root.state('zoomed')
+    root.mainloop()
+
+stu()
     
+
+    #fetch_data()
+
+    
+    
+'''   
     def fetch_data():
         con=pymysql.connect(host="localhost",user="root",password="",database="stm")
         cur =con.cursor()
@@ -208,7 +241,7 @@ def stu():
         content = table.item(cursor_row)
         row=content['values']
         print(row)
-        '''con=pymysql.connect(host="localhost",user="root",password="",database="stm")
+        con=pymysql.connect(host="localhost",user="root",password="",database="stm")
         cur =con.cursor()
         cur.execute("select * from students ")#need to complete this
         rows=cur.fetchall()
@@ -219,7 +252,5 @@ def stu():
             con.commit()
         con.close()'''
 
-    root.state('zoomed')
-    root.mainloop()
-
-
+    
+#stu()

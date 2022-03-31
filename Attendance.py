@@ -27,11 +27,11 @@ def attend():
           absent(root)
 
      icon_image = Image.open('media/id_icon.png')
-     icon_image = icon_image.resize((100,  100), Image.ANTIALIAS)
+     icon_image = icon_image.resize((150,  150), Image.ANTIALIAS)
      my_img1 = ImageTk.PhotoImage(icon_image)
 
      mbtn = Menubutton(root,image=my_img1, text="",bg="#ffffff",bd=0, relief=RAISED)
-     mbtn.place(x=900,y=2,height="100",width="100")
+     mbtn.place(x=1800,y=14,height="100",width="100")
      mbtn.menu = Menu(mbtn, tearoff = 0)
      mbtn["menu"] = mbtn.menu
         
@@ -52,3 +52,4 @@ def attend():
      root.mainloop()
 
 
+#attend()

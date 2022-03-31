@@ -1,14 +1,27 @@
 from tkinter import * 
 from tkinter import ttk
 from PIL import Image,ImageTk
-
+from tkinter import messagebox
 from functions import empo
+import mysql.connector
+
+
 
 def teacher():
     root = Tk()
     root.title("Teachers")
     root.geometry("1920x1080")
     root.config(bg="#f6f6f6")
+
+    #variables
+    id_var = IntVar()
+    name_var = StringVar()
+    desig_var = StringVar()
+    mail_var = StringVar()
+    add_var = StringVar()
+    phn_var = IntVar()
+    dob_var = StringVar()
+    sex_var = StringVar()
 
 
     #Bg img
@@ -26,11 +39,11 @@ def teacher():
 
     #dropbox
     icon_image = Image.open('media/id_icon.png')
-    icon_image = icon_image.resize((100,  100), Image.ANTIALIAS)
+    icon_image = icon_image.resize((150,  150), Image.ANTIALIAS)
     my_img1 = ImageTk.PhotoImage(icon_image)
 
     mbtn = Menubutton(root,image=my_img1, text="",bg="#ffffff",bd=0, relief=RAISED)
-    mbtn.place(x=900,y=2,height="100",width="100")
+    mbtn.place(x=1800,y=14,height="100",width="100")
     mbtn.menu = Menu(mbtn, tearoff = 0)
     mbtn["menu"] = mbtn.menu
             
@@ -45,49 +58,49 @@ def teacher():
     #entry details
     name = Label(text="Name",bg="#FFFFFF", font=('Lucida Console', 17))
     name.place(x=30,y=220)
-    e1 = Entry(bg='#EFEFEF',relief="flat")
+    e1 = Entry(bg='#EFEFEF',textvariable=name_var,relief="flat")
     e1.place(x=145,y=223,height=25,width=230)
 
     id = Label(text="ID",bg="#FFFFFF", font=('Lucida Console', 14))
     id.place(x=30,y=280)
-    e2 = Entry(bg='#EFEFEF',relief="flat")
+    e2 = Entry(bg='#EFEFEF',textvariable=id_var,relief="flat")
     e2.place(x=145,y=283,height=25,width=230)
 
     desig = Label(text="Designation",bg="#FFFFFF", font=('Lucida Console', 13))
     desig.place(x=30,y=340)
-    e3 = Entry(bg='#EFEFEF',relief="flat")
+    e3 = Entry(bg='#EFEFEF',textvariable=desig_var,relief="flat")
     e3.place(x=150,y=340,height=25,width=225)
 
     email = Label(text="Email",bg="#FFFFFF", font=('Lucida Console', 14))
     email.place(x=30,y=400)
-    e5 = Entry(bg='#EFEFEF',relief="flat")
+    e5 = Entry(bg='#EFEFEF',textvariable=mail_var,relief="flat")
     e5.place(x=145,y=403,height=25,width=230)
 
     add = Label(text="Address",bg="#FFFFFF", font=('Lucida Console', 14))
     add.place(x=30,y=460)
-    e6 = Entry(bg='#EFEFEF',relief="flat")
+    e6 = Entry(bg='#EFEFEF',textvariable=add_var,relief="flat")
     e6.place(x=145,y=463,height=45,width=230)
 
     phn = Label(text="Contact",bg="#FFFFFF", font=('Lucida Console', 14))
     phn.place(x=30,y=530)
-    e7 = Entry(bg='#EFEFEF',relief="flat")
+    e7 = Entry(bg='#EFEFEF',textvariable=phn_var,relief="flat")
     e7.place(x=145,y=533,height=25,width=230)
 
     dob = Label(text="D.O.B",bg="#FFFFFF", font=('Lucida Console', 14))
     dob.place(x=30,y=590)
-    e8 = Entry(bg='#EFEFEF',relief="flat")
+    e8 = Entry(bg='#EFEFEF',textvariable=dob_var,relief="flat")
     e8.place(x=145,y=593,height=25,width=230)
 
     sex = Label(text="Gender",bg="#FFFFFF", font=('Lucida Console', 14))
     sex.place(x=30,y=650)
-    e9 = Entry(bg='#EFEFEF',relief="flat")
+    e9 = Entry(bg='#EFEFEF',textvariable=sex_var,relief="flat")
     e9.place(x=145,y=653,height=25,width=230)
 
 
     b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
     b.place(x=30,y=693,height=28,width=347)
 
-    b1 = Button( root,text="Add",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 15))
+    b1 = Button( root,text="Add",bg="#5d53f1",command=add,fg="#FFFFFF",relief="flat",font=('Lucida Console', 15))
     b1.place(x=35,y=740,height=30,width=80)
 
     b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
@@ -145,9 +158,25 @@ def teacher():
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
 
+    def add():
+        try:
+            conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+            cursur=conn.cursor()
+            cursur.execute("insert into teachers values(%s,%s,%s,%s,%s,%s,%s,%s)",(
+                                                        id_var.get(),name_var.get(),desig_var.get(),
+                                                        mail_var.get(),add_var.get(),phn_var.get(),
+                                                        dob_var.get(),sex_var.get()
+                                                        ))
+            conn.commit()
+            conn.close()
+            messagebox.showinfo("sucessfully added!",parent=root)
+            print("working")
 
+        except EXCEPTION as es:
+            messagebox.showerror("Error during inserting",f"Due to:{str(es)}",parent=root)
+            
 
     root.state('zoomed')
     root.mainloop()
 
-
+teacher()
