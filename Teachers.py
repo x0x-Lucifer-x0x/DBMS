@@ -222,7 +222,7 @@ def teacher():
 
     search_var=StringVar()
     search_box = ttk.Combobox(font=('Lucida Console', 11),textvariable=search_var,state='readonly')
-    search_box['values']=("Name","Roll no","Contact")
+    search_box['values']=("Name","ID","Contact")
     search_box.place(x=590,y=230,height=25,width=95)
 
     e10_var=StringVar()
