@@ -171,7 +171,7 @@ def stu():
     b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
     b.place(x=30,y=693,height=28,width=347)
 
-    b1 = Button( root,text="Add",bg="#5d53f1",fg="#000000",command=add_stud,relief="flat",font=('Lucida Console', 15))
+    b1 = Button( root,text="Add",bg="#5d53f1",fg="#000000",relief="flat",font=('Lucida Console', 15))
     b1.place(x=235,y=190,height=30,width=80)
 
     b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))

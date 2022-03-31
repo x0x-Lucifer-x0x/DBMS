@@ -54,6 +54,7 @@ def teacher():
             conn.commit()
         conn.close()            
 
+
     def get_cur(event=""):
         cursor_row=table.focus()
         content=table.item(cursor_row)
@@ -118,7 +119,14 @@ def teacher():
     def search_info():
         conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
         cursur=conn.cursor()
-        cursur.execute("select * from teachers where"+str(search_box.get())+"="+str())
+        cursur.execute("select * from teachers where "+str(search_var.get())+" LIKE '%"+str(e10.get())+"%'")
+        data=cursur.fetchall()
+        if len(data)!=0:
+            table.delete(*table.get_children())
+            for i in data:
+                table.insert("",END,values=i)
+            conn.commit()
+        conn.close()        
 
 
         
@@ -212,17 +220,19 @@ def teacher():
     search = Label(text="Search By",bg="#FFFFFF", font=('Lucida Console', 14))
     search.place(x=470,y=230)
 
-    search_box = ttk.Combobox(font=('Lucida Console', 11),state='readonly')
+    search_var=StringVar()
+    search_box = ttk.Combobox(font=('Lucida Console', 11),textvariable=search_var,state='readonly')
     search_box['values']=("Name","Roll no","Contact")
     search_box.place(x=590,y=230,height=25,width=95)
 
-    e10= Entry(bg='#EFEFEF',relief="flat")
+    e10_var=StringVar()
+    e10= Entry(bg='#EFEFEF',textvariable=e10_var,relief="flat")
     e10.place(x=720,y=228,height=33,width=225)
 
-    b4 = Button( root,text="Search",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 13))
+    b4 = Button( root,text="Search",bg="#5d53f1",fg="#FFFFFF",command=search_info,relief="flat",font=('Lucida Console', 13))
     b4.place(x=1005,y=228,height=30,width=80)
 
-    b5 = Button( root,text="Show All",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 13))
+    b5 = Button( root,text="Show All",command=fetch,bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 13))
     b5.place(x=1122,y=228,height=30,width=95)
 
     frame = Frame(root,bd=1,bg="#f6f6f6")
