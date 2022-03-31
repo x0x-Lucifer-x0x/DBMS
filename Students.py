@@ -7,13 +7,6 @@ import mysql.connector
 from tkinter import messagebox
 
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Meet@1234",
-    database="stm"
-)
-mycursor = mydb.cursor()
 
 def stu():
     root = Tk()
@@ -55,19 +48,6 @@ def stu():
 
 
 
-    def add():
-        try:
-            con=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
-            cur =con.cursor()
-            cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(
-            rollno_var.get(),name_var.get(),class_var.get(),div_var.get(),mail_var.get(),add_var.get(),
-                        phn_var.get(),dob_var.get(),sex_var.get()))
-            con.commit()
-            con.close()
-            messagebox.showinfo("Information","Record inserted successfully...")
-        except Exception as e:
-            print('error')
-            con.rollback
   
 
     #=====All Variables=====#
@@ -132,45 +112,6 @@ def stu():
 
 
 
-    rollnumber = rollno_var.get()
-    stuname = name_var.get()
-    stuclass = class_var.get()
-    studiv = div_var.get()
-    stumail = mail_var.get()
-    stuadd = add_var.get()
-    stuphn = phn_var.get()
-    studob = dob_var.get()
-    stusex = sex_var.get()
-
-
-    def fetch_data():
-        mycursor.execute("select * from students")
-        rows=mycursor.fetchall()
-        if len(rows)!=0:
-            table.delete(*table.get_children())
-            for row in rows:
-                table.insert('',END,values=row)
-            mydb.commit()
-
-    def add_stud():
-
-        try:
-            sql = "INSERT INTO students (roll_no,name,class,section,email,address,contact,dob,gender) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-            val = (rollnumber,stuname,stuclass,studiv,stumail,stuadd,stuphn,studob,stusex)
-
-            mycursor.execute(sql,val)
-            mydb.commit
-            messagebox.showinfo("Information","Record inserted successfully...")
-            #clear()
-            mydb.close()
-
-        except EXCEPTION as e:
-            messagebox.showerror("Error not inserted!!",f"Due to:{str(e)}")
-
-
-
-
-
 
 
     #searching elements
@@ -227,35 +168,6 @@ def stu():
     
 
 
-
-    '''
-    def clear():
-        name_var.set("")
-        rollno_var.set("")
-        class_var.set("")
-        div_var.set("")
-        mail_var.set("")
-        add_var.set("")
-        phn_var.set("")
-        dob_var.set("")
-        sex_var.delete("1.0",END)
-
-    def get_cursor():
-        cursor_row=table.focus()
-        content = table.item(cursor_row)
-        row=content['values']
-        print(row)
-        con=pymysql.connect(host="localhost",user="root",password="",database="stm")
-        cur =con.cursor()
-        cur.execute("select * from students ")#need to complete this
-        rows=cur.fetchall()
-        if len(rows)!=0:
-            table.delete(*table.get_children())
-            for row in rows:
-                table.insert('',END,values=row)
-            con.commit()
-        con.close()'''
-
     b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
     b.place(x=30,y=693,height=28,width=347)
 
@@ -275,6 +187,3 @@ def stu():
     root.mainloop()
 
 
-
-
-stu()
