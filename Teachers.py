@@ -34,13 +34,94 @@ def teacher():
                                                         dob_var.get(),sex_var.get()
                                                         ))
             conn.commit()
+            fetch()
             conn.close()
-            messagebox.showinfo("sucessfully added!",parent=root)
+            #messagebox.showinfo("sucessfully added!",parent=root)
             
 
         except EXCEPTION as es:         
-            messagebox.showerror("Error during inserting")
-            
+            conn.rollback()
+
+    def fetch():
+        conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+        cursur=conn.cursor()
+        cursur.execute("select * from teachers")
+        data=cursur.fetchall()
+        if len(data)!=0:
+            table.delete(*table.get_children())
+            for i in data:
+                table.insert("",END,values=i)
+            conn.commit()
+        conn.close()            
+
+    def get_cur(event=""):
+        cursor_row=table.focus()
+        content=table.item(cursor_row)
+        data=content["values"]
+        id_var.set(data[0])
+        name_var.set(data[1])
+        desig_var.set(data[2])
+        mail_var.set(data[3])
+        add_var.set(data[4])
+        phn_var.set(data[5])
+        dob_var.set(data[6])
+        sex_var.set(data[7])
+
+
+
+    def delete_info():
+        delete=messagebox.askyesno("Delete","Are sure delete this student")
+        if delete>0:
+            conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+            cursur=conn.cursor()
+            sql = "delete from teachers where id=%s"
+            value=(id_var.get(),)
+            cursur.execute(sql,value)
+
+        else:
+            if not delete:
+                return
+        conn.commit()
+        fetch()
+        conn.close()
+        messagebox.showinfo("Delete","Your data has been Deleted")
+
+    def update_info():
+        update=messagebox.askyesno("Update","Are sure to update this info")
+        if update>0:
+            conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+            cursur=conn.cursor()
+            sql = "delete from teachers where id=%s"
+            value=(id_var.get(),)
+            cursur.execute(sql,value)
+
+        else:
+            if not update:
+                return
+        conn.commit()
+        fetch()
+        conn.close()
+        messagebox.showinfo("Update","Your data has been Updated")
+        
+        add_info()
+
+    def clear_info():
+        id_var.set("")
+        name_var.set("")
+        desig_var.set("")     
+        mail_var.set("")
+        add_var.set("")
+        phn_var.set("")
+        dob_var.set("")
+        sex_var.set("")
+
+    def search_info():
+        conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+        cursur=conn.cursor()
+        cursur.execute("select * from teachers where"+str(search_box.get())+"="+str())
+
+
+        
 
     #Bg img
     image = Image.open('media/Teacher.png')
@@ -115,16 +196,16 @@ def teacher():
     e9.place(x=145,y=653,height=25,width=230)
 
 
-    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
+    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",command=clear_info,relief="flat",font=('Lucida Console', 15))
     b.place(x=30,y=693,height=28,width=347)
 
     b1 = Button( root,text="Add",bg="#5d53f1",command=add_info,fg="#FFFFFF",relief="flat",font=('Lucida Console', 15))
     b1.place(x=35,y=740,height=30,width=80)
 
-    b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",command=update_info,relief="flat",font=('Lucida Console', 14))
     b2.place(x=160,y=740,height=30,width=80)
 
-    b3 = Button( root,text="Delete",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b3 = Button( root,text="Delete",bg="#5d53f1",fg="#FFFFFF",command=delete_info,relief="flat",font=('Lucida Console', 14))
     b3.place(x=285,y=740,height=30,width=80)
 
     #searching elements
@@ -175,7 +256,8 @@ def teacher():
     table.column("dob",width=70)
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
-
+    table.bind("<ButtonRelease>",get_cur)
+    fetch()
     
 
     root.state('zoomed')
