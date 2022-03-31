@@ -100,7 +100,7 @@ def login():
     mycursor.execute(sql)
 
     if mycursor.fetchone():
-        window.destroy
+        window.destroy()
         home()
     else:
         error()
@@ -113,5 +113,6 @@ submit.place(x=45,y=530,height=45,width=150)
 
 window.state('zoomed')
 window.mainloop()
+
 
 

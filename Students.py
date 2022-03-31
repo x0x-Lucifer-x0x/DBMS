@@ -1,11 +1,19 @@
 from tkinter import * 
 from tkinter import ttk
+from tkinter import messagebox
 from PIL import Image,ImageTk
 from functions import stud
 import mysql.connector
 from tkinter import messagebox
 
 
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="Meet@1234",
+    database="stm"
+)
+mycursor = mydb.cursor()
 
 def stu():
     root = Tk()
@@ -52,7 +60,7 @@ def stu():
             con=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
             cur =con.cursor()
             cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(
-            roll_var.get(),name_var.get(),class_var.get(),div_var.get(),mail_var.get(),add_var.get(),
+            rollno_var.get(),name_var.get(),class_var.get(),div_var.get(),mail_var.get(),add_var.get(),
                         phn_var.get(),dob_var.get(),sex_var.get()))
             con.commit()
             con.close()
@@ -60,10 +68,10 @@ def stu():
         except Exception as e:
             print('error')
             con.rollback
-
+  
 
     #=====All Variables=====#
-    roll_var = IntVar() 
+    rollno_var = IntVar() 
     name_var = StringVar() 
     class_var = IntVar() 
     div_var = StringVar() 
@@ -74,15 +82,17 @@ def stu():
     sex_var = StringVar() 
 
     #entry details
-    name = Label(text="Name",bg="#FFFFFF", font=('Lucida Console', 17))
-    name.place(x=30,y=220)
-    e1 = Entry(textvariable=name_var,bg='#EFEFEF',relief="flat")
-    e1.place(x=145,y=223,height=25,width=230)
+    
 
     rollno = Label(text="Roll No.",bg="#FFFFFF", font=('Lucida Console', 14))
-    rollno.place(x=30,y=280)
-    e2 = Entry(textvariable=roll_var,bg='#EFEFEF',relief="flat")
-    e2.place(x=145,y=283,height=25,width=230)
+    rollno.place(x=30,y=220)
+    e2 = Entry(textvariable=rollno_var,bg='#EFEFEF',relief="flat")
+    e2.place(x=145,y=223,height=25,width=230)
+
+    name = Label(text="Name",bg="#FFFFFF", font=('Lucida Console', 17))
+    name.place(x=30,y=280)
+    e1 = Entry(textvariable=name_var,bg='#EFEFEF',relief="flat")
+    e1.place(x=145,y=283,height=25,width=230)
 
     Class = Label(text="Class",bg="#FFFFFF", font=('Lucida Console', 14))
     Class.place(x=30,y=340)
@@ -99,8 +109,8 @@ def stu():
     e5 = Entry(textvariable=mail_var,bg='#EFEFEF',relief="flat")
     e5.place(x=145,y=403,height=25,width=230)
 
-    add = Label(text="Address",bg="#FFFFFF", font=('Lucida Console', 14))
-    add.place(x=30,y=460)
+    address = Label(text="Address",bg="#FFFFFF", font=('Lucida Console', 14))
+    address.place(x=30,y=460)
     e6 = Entry(textvariable=add_var,bg='#EFEFEF',relief="flat")
     e6.place(x=145,y=463,height=45,width=230)
 
@@ -119,17 +129,49 @@ def stu():
     e9 = Entry(textvariable=sex_var,bg='#EFEFEF',relief="flat")
     e9.place(x=145,y=653,height=25,width=230)
 
-    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
-    b.place(x=30,y=693,height=28,width=347)
 
-    b1 = Button( root,text="Add",bg="#5d53f1",fg="#FFFFFF",command=add,relief="flat",font=('Lucida Console', 15))
-    b1.place(x=35,y=740,height=30,width=80)
 
-    b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
-    b2.place(x=160,y=740,height=30,width=80)
 
-    b3 = Button( root,text="Delete",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
-    b3.place(x=285,y=740,height=30,width=80)
+    rollnumber = rollno_var.get()
+    stuname = name_var.get()
+    stuclass = class_var.get()
+    studiv = div_var.get()
+    stumail = mail_var.get()
+    stuadd = add_var.get()
+    stuphn = phn_var.get()
+    studob = dob_var.get()
+    stusex = sex_var.get()
+
+
+    def fetch_data():
+        mycursor.execute("select * from students")
+        rows=mycursor.fetchall()
+        if len(rows)!=0:
+            table.delete(*table.get_children())
+            for row in rows:
+                table.insert('',END,values=row)
+            mydb.commit()
+
+    def add_stud():
+
+        try:
+            sql = "INSERT INTO students (roll_no,name,class,section,email,address,contact,dob,gender) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            val = (rollnumber,stuname,stuclass,studiv,stumail,stuadd,stuphn,studob,stusex)
+
+            mycursor.execute(sql,val)
+            mydb.commit
+            messagebox.showinfo("Information","Record inserted successfully...")
+            #clear()
+            mydb.close()
+
+        except EXCEPTION as e:
+            messagebox.showerror("Error not inserted!!",f"Due to:{str(e)}")
+
+
+
+
+
+
 
     #searching elements
     search = Label(text="Search By",bg="#FFFFFF", font=('Lucida Console', 14))
@@ -181,50 +223,12 @@ def stu():
     table.column("dob",width=70)
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
-
-
-   
-
+    #table.bind("<ButtonRelease-1>",get_cursor)
     
 
 
 
-    
-    '''' def add_stud():
-        con=mysql.connect(host="localhost",user="root",password="Meet@1234",database="stm")
-        cur =con.cursor()
-        cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(name_var.get(),
-        rollno_var.get(),class_var.get(),div_var.get(),mail_var.get(),add_var.get(),
-                        phn_var.get(),dob_var.get(),sex_var.get()))
-        con.commit()
-        #fetch_data()
-        #clear()
-        con.close()'''
-
-
-    root.state('zoomed')
-    root.mainloop()
-
-stu()
-    
-
-    #fetch_data()
-
-    
-    
-'''   
-    def fetch_data():
-        con=pymysql.connect(host="localhost",user="root",password="",database="stm")
-        cur =con.cursor()
-        cur.execute("select * from students")
-        rows=cur.fetchall()
-        if len(rows)!=0:
-            table.delete(*table.get_children())
-            for row in rows:
-                table.insert('',END,values=row)
-            con.commit()
-        con.close()
-
+    '''
     def clear():
         name_var.set("")
         rollno_var.set("")
@@ -252,5 +256,25 @@ stu()
             con.commit()
         con.close()'''
 
+    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
+    b.place(x=30,y=693,height=28,width=347)
+
+    b1 = Button( root,text="Add",bg="#5d53f1",fg="#000000",command=add_stud,relief="flat",font=('Lucida Console', 15))
+    b1.place(x=235,y=190,height=30,width=80)
+
+    b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b2.place(x=160,y=740,height=30,width=80)
+
+    b3 = Button( root,text="Delete",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b3.place(x=285,y=740,height=30,width=80)
+
+    root.state('zoomed')
     
-#stu()
+    
+    
+    root.mainloop()
+
+
+
+
+stu()

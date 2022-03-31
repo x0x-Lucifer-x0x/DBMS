@@ -24,6 +24,24 @@ def teacher():
     sex_var = StringVar()
 
 
+    def add_info():
+        try:
+            conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+            cursur=conn.cursor()
+            cursur.execute("insert into teachers values(%s,%s,%s,%s,%s,%s,%s,%s)",(
+                                                        id_var.get(),name_var.get(),desig_var.get(),
+                                                        mail_var.get(),add_var.get(),phn_var.get(),
+                                                        dob_var.get(),sex_var.get()
+                                                        ))
+            conn.commit()
+            conn.close()
+            messagebox.showinfo("sucessfully added!",parent=root)
+            
+
+        except EXCEPTION as es:         
+            messagebox.showerror("Error during inserting")
+            
+
     #Bg img
     image = Image.open('media/Teacher.png')
     image = image.resize((1530,  820), Image.ANTIALIAS)
@@ -100,7 +118,7 @@ def teacher():
     b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
     b.place(x=30,y=693,height=28,width=347)
 
-    b1 = Button( root,text="Add",bg="#5d53f1",command=add,fg="#FFFFFF",relief="flat",font=('Lucida Console', 15))
+    b1 = Button( root,text="Add",bg="#5d53f1",command=add_info,fg="#FFFFFF",relief="flat",font=('Lucida Console', 15))
     b1.place(x=35,y=740,height=30,width=80)
 
     b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
@@ -158,23 +176,7 @@ def teacher():
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
 
-    def add():
-        try:
-            conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
-            cursur=conn.cursor()
-            cursur.execute("insert into teachers values(%s,%s,%s,%s,%s,%s,%s,%s)",(
-                                                        id_var.get(),name_var.get(),desig_var.get(),
-                                                        mail_var.get(),add_var.get(),phn_var.get(),
-                                                        dob_var.get(),sex_var.get()
-                                                        ))
-            conn.commit()
-            conn.close()
-            messagebox.showinfo("sucessfully added!",parent=root)
-            print("working")
-
-        except EXCEPTION as es:
-            messagebox.showerror("Error during inserting",f"Due to:{str(es)}",parent=root)
-            
+    
 
     root.state('zoomed')
     root.mainloop()
