@@ -19,7 +19,7 @@ def teacher():
     desig_var = StringVar()
     mail_var = StringVar()
     add_var = StringVar()
-    phn_var = IntVar()
+    Contact_var = IntVar()
     dob_var = StringVar()
     sex_var = StringVar()
 
@@ -30,7 +30,7 @@ def teacher():
             cursur=conn.cursor()
             cursur.execute("insert into teachers values(%s,%s,%s,%s,%s,%s,%s,%s)",(
                                                         id_var.get(),name_var.get(),desig_var.get(),
-                                                        mail_var.get(),add_var.get(),phn_var.get(),
+                                                        mail_var.get(),add_var.get(),Contact_var.get(),
                                                         dob_var.get(),sex_var.get()
                                                         ))
             conn.commit()
@@ -64,7 +64,7 @@ def teacher():
         desig_var.set(data[2])
         mail_var.set(data[3])
         add_var.set(data[4])
-        phn_var.set(data[5])
+        Contact_var.set(data[5])
         dob_var.set(data[6])
         sex_var.set(data[7])
 
@@ -112,7 +112,7 @@ def teacher():
         desig_var.set("")     
         mail_var.set("")
         add_var.set("")
-        phn_var.set("")
+        Contact_var.set("")
         dob_var.set("")
         sex_var.set("")
 
@@ -188,9 +188,9 @@ def teacher():
     e6 = Entry(bg='#EFEFEF',textvariable=add_var,relief="flat")
     e6.place(x=145,y=463,height=45,width=230)
 
-    phn = Label(text="Contact",bg="#FFFFFF", font=('Lucida Console', 14))
-    phn.place(x=30,y=530)
-    e7 = Entry(bg='#EFEFEF',textvariable=phn_var,relief="flat")
+    Contact = Label(text="Contact",bg="#FFFFFF", font=('Lucida Console', 14))
+    Contact.place(x=30,y=530)
+    e7 = Entry(bg='#EFEFEF',textvariable=Contact_var,relief="flat")
     e7.place(x=145,y=533,height=25,width=230)
 
     dob = Label(text="D.O.B",bg="#FFFFFF", font=('Lucida Console', 14))
@@ -242,7 +242,7 @@ def teacher():
     scrollx = Scrollbar(frame,orient=HORIZONTAL)
     scrolly = Scrollbar(frame,orient=VERTICAL)
     table = ttk.Treeview(frame,columns=("id","name","desig","Email",
-                                        "Add","phn","dob","sex"),
+                                        "Add","Contact","dob","sex"),
                                         xscrollcommand=scrollx.set,yscrollcommand=scrolly.set)
     scrollx.pack(side=BOTTOM,fill=X)
     scrolly.pack(side=RIGHT,fill=Y)
@@ -253,7 +253,7 @@ def teacher():
     table.heading("desig",text="Designation")
     table.heading("Email",text="Email")
     table.heading("Add",text="Address")
-    table.heading("phn",text="Contact")
+    table.heading("Contact",text="Contact")
     table.heading("dob",text="D.O.B")
     table.heading("sex",text="Gender")
     table['show']='headings'
@@ -262,7 +262,7 @@ def teacher():
     table.column("desig",width=75)
     table.column("Email",width=110)
     table.column("Add",width=150)
-    table.column("phn",width=110)
+    table.column("Contact",width=110)
     table.column("dob",width=70)
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
