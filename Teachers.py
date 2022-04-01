@@ -23,7 +23,7 @@ def teacher():
     dob_var = StringVar()
     sex_var = StringVar()
 
-
+    #Saves info to database
     def add_info():
         try:
             conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
@@ -42,6 +42,7 @@ def teacher():
         except EXCEPTION as es:         
             conn.rollback()
 
+    #fetch data from database
     def fetch():
         conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
         cursur=conn.cursor()
@@ -54,7 +55,7 @@ def teacher():
             conn.commit()
         conn.close()            
 
-
+    #gets cursor 
     def get_cur(event=""):
         cursor_row=table.focus()
         content=table.item(cursor_row)
@@ -68,8 +69,7 @@ def teacher():
         dob_var.set(data[6])
         sex_var.set(data[7])
 
-
-
+    #delete info from database  
     def delete_info():
         delete=messagebox.askyesno("Delete","Are sure delete this student")
         if delete>0:
@@ -87,6 +87,7 @@ def teacher():
         conn.close()
         messagebox.showinfo("Delete","Your data has been Deleted")
 
+    #changes info in database
     def update_info():
         update=messagebox.askyesno("Update","Are sure to update this info")
         if update>0:
@@ -102,10 +103,9 @@ def teacher():
         conn.commit()
         fetch()
         conn.close()
-        messagebox.showinfo("Update","Your data has been Updated")
-        
         add_info()
 
+    #clears the entry 
     def clear_info():
         id_var.set("")
         name_var.set("")
@@ -116,10 +116,11 @@ def teacher():
         dob_var.set("")
         sex_var.set("")
 
+    #searches data by name,id,contact
     def search_info():
         conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
         cursur=conn.cursor()
-        cursur.execute("select * from teachers where "+str(search_var.get())+" LIKE '%"+str(e10.get())+"%'")
+        cursur.execute("select * from teachers where "+str(search_var.get())+" LIKE '%"+str(e10_var.get())+"%'")
         data=cursur.fetchall()
         if len(data)!=0:
             table.delete(*table.get_children())
@@ -128,8 +129,6 @@ def teacher():
             conn.commit()
         conn.close()        
 
-
-        
 
     #Bg img
     image = Image.open('media/Teacher.png')
@@ -272,5 +271,3 @@ def teacher():
 
     root.state('zoomed')
     root.mainloop()
-
-teacher()

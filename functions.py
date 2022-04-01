@@ -36,7 +36,7 @@ def ivent(root):
     root.destroy()
     from Home import home
     home()
-
+ 
 def absent(root):
     root.destroy()
     from Home import home

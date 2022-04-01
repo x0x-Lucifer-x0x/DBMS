@@ -52,5 +52,3 @@ def pwd():
      root.state('zoomed')
      root.mainloop()
 
-#pwd()
-

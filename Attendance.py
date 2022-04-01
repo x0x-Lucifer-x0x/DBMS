@@ -50,6 +50,3 @@ def attend():
 
      root.state('zoomed')
      root.mainloop()
-
-
-#attend()

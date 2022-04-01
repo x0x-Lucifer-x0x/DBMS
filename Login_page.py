@@ -10,7 +10,7 @@ mydb = mysql.connector.connect(
     user="root",
     password="Manorama#4269",
     database="school_dbms"
-)
+    )
 
 global username
 global password

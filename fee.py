@@ -45,6 +45,3 @@ def fee():
 
      root.state('zoomed')
      root.mainloop()
-
-
-
