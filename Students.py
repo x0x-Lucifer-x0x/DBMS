@@ -14,6 +14,122 @@ def stu():
     root.geometry("1920x1080")
     root.config(bg="#f6f6f6")
 
+    #=====All Variables=====#
+    roll_var = IntVar()
+    name_var = StringVar()
+    class_var = IntVar()
+    div_var = StringVar()
+    mail_var = StringVar()
+    add_var = StringVar()
+    Contact_var = IntVar()
+    dob_var = StringVar()
+    sex_var = StringVar()
+
+    #Saves info to database
+    def add_info():
+        conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+        cursur=conn.cursor()
+        cursur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(
+                                                        roll_var.get(),name_var.get(),class_var.get(),
+                                                        div_var.get(),mail_var.get(),add_var.get(),
+                                                        Contact_var.get(),dob_var.get(),sex_var.get()
+                                                        ))
+        conn.commit()
+        fetch()
+        conn.close()
+        
+            
+
+    #fetch data from database
+    def fetch():
+        conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+        cursur=conn.cursor()
+        cursur.execute("select * from students")
+        data=cursur.fetchall()
+        if len(data)!=0:
+            table.delete(*table.get_children())
+            for i in data:
+                table.insert("",END,values=i)
+            conn.commit()
+        conn.close()            
+
+    #gets cursor 
+    def get_cur(event=""):
+        cursor_row=table.focus()
+        content=table.item(cursor_row)
+        data=content["values"]
+        roll_var.set(data[0])
+        name_var.set(data[1])
+        class_var.set(data[2])
+        div_var.set(data[3])
+        mail_var.set(data[4])
+        add_var.set(data[5])
+        Contact_var.set(data[6])
+        dob_var.set(data[7])
+        sex_var.set(data[8])
+
+    #delete info from database  
+    def delete_info():
+        delete=messagebox.askyesno("Delete","Are you sure to delete this student")
+        if delete>0:
+            conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+            cursur=conn.cursor()
+            sql = "delete from students where rollno=%s"
+            value=(roll_var.get(),)
+            cursur.execute(sql,value)
+
+        else:
+            if not delete:
+                return
+        conn.commit()
+        fetch()
+        conn.close()
+        messagebox.showinfo("Delete","Your data has been Deleted")
+
+    #changes info in database
+    def update_info():
+        update=messagebox.askyesno("Update","Are sure to update this info")
+        if update>0:
+            conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+            cursur=conn.cursor()
+            sql = "delete from students where rollno=%s"
+            value=(roll_var.get(),)
+            cursur.execute(sql,value)
+
+        else:
+            if not update:
+                return
+        conn.commit()
+        fetch()
+        conn.close()
+        
+        add_info()
+
+    #clears the entry 
+    def clear_info():
+        roll_var.set("")
+        name_var.set("")
+        class_var.set("")
+        div_var.set("")     
+        mail_var.set("")
+        add_var.set("")
+        Contact_var.set("")
+        dob_var.set("")
+        sex_var.set("")
+
+    #searches data by name,id,contact
+    def search_info():
+        conn=mysql.connector.connect(host="localhost",user="root",password="Meet@1234",database="stm")
+        cursur=conn.cursor()
+        cursur.execute("select * from students where "+str(search_var.get())+" LIKE '%"+str(e10_var.get())+"%'")
+        data=cursur.fetchall()
+        if len(data)!=0:
+            table.delete(*table.get_children())
+            for i in data:
+                table.insert("",END,values=i)
+            conn.commit()
+        conn.close()  
+
 
     #Bg img
     image = Image.open('media/Teacher.png')
@@ -47,26 +163,10 @@ def stu():
     mbtn.menu.add_checkbutton(label="Back",command=logout, variable=phpVar)
 
 
-
-  
-
-    #=====All Variables=====#
-    rollno_var = IntVar() 
-    name_var = StringVar() 
-    class_var = IntVar() 
-    div_var = StringVar() 
-    mail_var = StringVar() 
-    add_var = StringVar() 
-    phn_var = IntVar() 
-    dob_var = StringVar() 
-    sex_var = StringVar() 
-
     #entry details
-    
-
     rollno = Label(text="Roll No.",bg="#FFFFFF", font=('Lucida Console', 14))
     rollno.place(x=30,y=220)
-    e2 = Entry(textvariable=rollno_var,bg='#EFEFEF',relief="flat")
+    e2 = Entry(textvariable=roll_var,bg='#EFEFEF',relief="flat")
     e2.place(x=145,y=223,height=25,width=230)
 
     name = Label(text="Name",bg="#FFFFFF", font=('Lucida Console', 17))
@@ -94,9 +194,9 @@ def stu():
     e6 = Entry(textvariable=add_var,bg='#EFEFEF',relief="flat")
     e6.place(x=145,y=463,height=45,width=230)
 
-    phn = Label(text="Contact",bg="#FFFFFF", font=('Lucida Console', 14))
-    phn.place(x=30,y=530)
-    e7 = Entry(textvariable=phn_var,bg='#EFEFEF',relief="flat")
+    contact = Label(text="Contact",bg="#FFFFFF", font=('Lucida Console', 14))
+    contact.place(x=30,y=530)
+    e7 = Entry(textvariable=Contact_var,bg='#EFEFEF',relief="flat")
     e7.place(x=145,y=533,height=25,width=230)
 
     dob = Label(text="D.O.B",bg="#FFFFFF", font=('Lucida Console', 14))
@@ -110,25 +210,37 @@ def stu():
     e9.place(x=145,y=653,height=25,width=230)
 
 
+    #dml elements
+    b = Button( root,text="Clear",bg="#EFEFEF",command=clear_info,fg="Black",relief="flat",font=('Lucida Console', 15))
+    b.place(x=30,y=693,height=28,width=347)
 
+    b1 = Button( root,text="Add",bg="#5d53f1",fg="#FFFFFF",command=add_info,relief="flat",font=('Lucida Console', 15))
+    b1.place(x=30,y=740,height=30,width=80)
 
+    b2 = Button( root,text="Update",bg="#5d53f1",command=update_info,fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b2.place(x=160,y=740,height=30,width=80)
+
+    b3 = Button( root,text="Delete",bg="#5d53f1",command=delete_info,fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
+    b3.place(x=285,y=740,height=30,width=80)
 
 
     #searching elements
     search = Label(text="Search By",bg="#FFFFFF", font=('Lucida Console', 14))
     search.place(x=470,y=230)
 
-    search_box = ttk.Combobox(font=('Lucida Console', 11),state='readonly')
-    search_box['values']=("Name","Roll no","Contact")
+    search_var = StringVar()
+    search_box = ttk.Combobox(font=('Lucida Console', 11),textvariable=search_var,state='readonly')
+    search_box['values']=("Name","Rollno","Contact")
     search_box.place(x=590,y=230,height=25,width=95)
 
-    e10= Entry(bg='#EFEFEF',relief="flat")
+    e10_var = StringVar()
+    e10= Entry(bg='#EFEFEF',textvariable=e10_var,relief="flat")
     e10.place(x=720,y=228,height=33,width=225)
 
-    b4 = Button( root,text="Search",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 13))
+    b4 = Button( root,text="Search",bg="#5d53f1",command=search_info,fg="#FFFFFF",relief="flat",font=('Lucida Console', 13))
     b4.place(x=1005,y=228,height=30,width=80)
 
-    b5 = Button( root,text="Show All",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 13))
+    b5 = Button( root,text="Show All",bg="#5d53f1",command=fetch,fg="#FFFFFF",relief="flat",font=('Lucida Console', 13))
     b5.place(x=1122,y=228,height=30,width=95)
 
     frame = Frame(root,bd=1,bg="#f6f6f6")
@@ -138,7 +250,7 @@ def stu():
     scrollx = Scrollbar(frame,orient=HORIZONTAL)
     scrolly = Scrollbar(frame,orient=VERTICAL)
     table = ttk.Treeview(frame,columns=("roll","name","class","div",
-                                        "Email","Add","phn","dob","sex"),
+                                        "Email","Add","Contact","dob","sex"),
                                         xscrollcommand=scrollx.set,yscrollcommand=scrolly.set)
     scrollx.pack(side=BOTTOM,fill=X)
     scrolly.pack(side=RIGHT,fill=Y)
@@ -150,7 +262,7 @@ def stu():
     table.heading("div",text="Section")
     table.heading("Email",text="Email")
     table.heading("Add",text="Address")
-    table.heading("phn",text="Contact")
+    table.heading("Contact",text="Contact")
     table.heading("dob",text="D.O.B")
     table.heading("sex",text="Gender")
     table['show']='headings'
@@ -160,30 +272,13 @@ def stu():
     table.column("div",width=30)
     table.column("Email",width=110)
     table.column("Add",width=150)
-    table.column("phn",width=110)
+    table.column("Contact",width=110)
     table.column("dob",width=70)
     table.column("sex",width=20)
     table.pack(fill=BOTH,expand=1)
-    #table.bind("<ButtonRelease-1>",get_cursor)
+    table.bind("<ButtonRelease-1>",get_cur)
+    fetch()
     
-
-
-    b = Button( root,text="Clear",bg="#EFEFEF",fg="Black",relief="flat",font=('Lucida Console', 15))
-    b.place(x=30,y=693,height=28,width=347)
-
-    b1 = Button( root,text="Add",bg="#5d53f1",fg="#000000",relief="flat",font=('Lucida Console', 15))
-    b1.place(x=235,y=190,height=30,width=80)
-
-    b2 = Button( root,text="Update",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
-    b2.place(x=160,y=740,height=30,width=80)
-
-    b3 = Button( root,text="Delete",bg="#5d53f1",fg="#FFFFFF",relief="flat",font=('Lucida Console', 14))
-    b3.place(x=285,y=740,height=30,width=80)
 
     root.state('zoomed')
-    
-    
-    
     root.mainloop()
-
-
