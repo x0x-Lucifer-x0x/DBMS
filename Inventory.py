@@ -260,5 +260,3 @@ def inventory():
     root.state('zoomed')
     root.mainloop()
 
-
-inventory()
