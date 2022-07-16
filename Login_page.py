@@ -13,7 +13,7 @@ mydb = mysql.connector.connect(
     )
 
 global username
-global password
+global password 
 
 username = StringVar()
 password = StringVar()

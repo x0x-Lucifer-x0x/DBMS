@@ -3,7 +3,7 @@ from tkinter import *
 from PIL import Image,ImageTk
 
 from functions import absent
-
+      
 
 def attend():
 

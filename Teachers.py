@@ -22,7 +22,7 @@ def teacher():
     Contact_var = IntVar()
     dob_var = StringVar()
     sex_var = StringVar()
-
+                      
     #Saves info to database
     def add_info():
         try:

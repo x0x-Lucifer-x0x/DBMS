@@ -13,7 +13,7 @@ def stu():
     root.title("Students")
     root.geometry("1920x1080")
     root.config(bg="#f6f6f6")
-
+                     
     #=====All Variables=====#
     roll_var = IntVar()
     name_var = StringVar()

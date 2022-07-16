@@ -5,7 +5,7 @@ import tkinter as tk
 from PIL import Image,ImageTk
 from functions import qite
 import time 
-
+           
 def pwd():
 
      root = Tk()

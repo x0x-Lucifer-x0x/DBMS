@@ -12,7 +12,7 @@ def inventory():
     root.title("Inventory")
     root.geometry("1920x1080")
     root.config(bg="#f6f6f6")
-
+                            
      #=====All Variables=====#
     id_var = IntVar()
     item_var = StringVar()

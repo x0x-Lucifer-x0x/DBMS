@@ -11,7 +11,7 @@ def fps(window):
 def qite(root):
     root.destroy()
     import Login_page
-
+       
 def fis(root):
     root.destroy()
     from Home import home

@@ -17,7 +17,7 @@ def Sched():
      my_lbl = Label(image = my_img) 
      my_lbl.pack()
 
-     
+          
      def logout():
           dule(root)
 
